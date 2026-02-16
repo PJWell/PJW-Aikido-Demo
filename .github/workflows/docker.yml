@@ -1,27 +1,7 @@
-name: Build and Push Docker Image
+FROM node:20-alpine
 
-on:
-  push:
-    branches: ["canary"]
-  workflow_dispatch:
+WORKDIR /app
 
-jobs:
-  docker:
-    runs-on: ubuntu-latest
+COPY . .
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: pjwell/pjw-aikido-demo:latest
+CMD ["node", "-v"]
